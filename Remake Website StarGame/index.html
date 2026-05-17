@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StarGame Rental</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <div class="app">
+    <nav class="navbar">
+      <a class="logo" href="#home">
+        <img id="websiteLogo" class="logo-img" alt="Logo StarGame">
+        <span>STAR<span>GAME</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="#catalog">Katalog</a>
+        <a href="#booking">Booking</a>
+        <a href="login.html" class="btn btn-pink">Admin</a>
+      </div>
+    </nav>
+
+    <div class="token-ticker">
+      <div class="ticker-content">
+        <span>⭐ NINTENDO SWITCH OLED</span><span>⭐ PLAYBOX READY</span><span>⭐ BOOKING VIA WHATSAPP</span><span>⭐ UPDATE REALTIME</span>
+        <span>⭐ NINTENDO SWITCH OLED</span><span>⭐ PLAYBOX READY</span><span>⭐ BOOKING VIA WHATSAPP</span><span>⭐ UPDATE REALTIME</span>
+      </div>
+    </div>
+
+    <section id="home" class="hero">
+      <div class="hero-text">
+        <span class="hero-tag">▶ JASA SEWA TERPERCAYA</span>
+        <h1>Main Seru,<br>Tanpa Beli Mahal!</h1>
+        <p>Sewa Nintendo Switch OLED dan Playbox dengan harga terjangkau dan kondisi terbaik.</p>
+        <div class="hero-btns">
+          <a href="#booking" class="btn">Booking Sekarang</a>
+          <a href="#catalog" class="btn btn-cyan">Lihat Katalog</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img id="heroBanner" alt="Hero Banner">
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="feature-card"><i class="fa-solid fa-truck"></i><h3>Antar Jemput</h3></div>
+      <div class="feature-card"><i class="fa-solid fa-shield"></i><h3>Kondisi Terbaik</h3></div>
+      <div class="feature-card"><i class="fa-solid fa-bolt"></i><h3>Respon Cepat</h3></div>
+      <div class="feature-card"><i class="fa-solid fa-wallet"></i><h3>Harga Terjangkau</h3></div>
+    </section>
+
+    <section class="catalog" id="catalog">
+      <h2 class="section-title">— KATALOG SEWA —</h2>
+      <div class="catalog-grid">
+        <div class="product-card">
+          <div class="status-badge">READY</div>
+          <img id="nintendoImg" alt="Nintendo Switch OLED">
+          <div class="product-content">
+            <h3>Nintendo Switch OLED</h3>
+            <p>Main game favorit dengan layar OLED premium.</p>
+            <div class="price" id="nintendoPriceText">Rp 80.000 / hari</div>
+            <a href="#booking" class="btn btn-block">Sewa Sekarang</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="status-badge badge-pink">READY</div>
+          <img id="playboxImg" alt="Playbox">
+          <div class="product-content">
+            <h3>Playbox</h3>
+            <p>Console game seru dengan banyak pilihan game.</p>
+            <div class="price" id="playboxPriceText">Rp 70.000 / hari</div>
+            <a href="#booking" class="btn btn-block btn-pink">Sewa Sekarang</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="booking" id="booking">
+      <div class="booking-form card">
+        <h2>Booking Sekarang</h2>
+        <input type="text" id="nama" placeholder="Nama Lengkap">
+        <input type="text" id="nomor" placeholder="Nomor WhatsApp">
+        <select id="paket">
+          <option value="">Pilih Paket</option>
+          <option>Nintendo Switch OLED</option>
+          <option>Playbox</option>
+        </select>
+        <input type="date" id="tanggal">
+        <select id="durasi">
+          <option value="">Durasi Sewa</option>
+          <option>1 Hari</option>
+          <option>2 Hari</option>
+          <option>3 Hari</option>
+        </select>
+        <textarea id="alamat" placeholder="Alamat Lengkap"></textarea>
+        <button class="wa-btn" onclick="sendWhatsApp()"><i class="fa-brands fa-whatsapp"></i> Booking Sekarang</button>
+      </div>
+
+      <div class="schedule card">
+        <h2>Jadwal Booking</h2>
+        <div id="schedule-list"></div>
+      </div>
+    </section>
+
+    <footer>
+      <h3>StarGame</h3>
+      <p>Sewa Nintendo Switch OLED & Playbox</p>
+    </footer>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, set, get, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBvzqJC6kSsSC27m7AcOvrfQ9_44hms6TQ",
+      authDomain: "stargamerental.firebaseapp.com",
+      databaseURL: "https://stargamerental-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "stargamerental",
+      storageBucket: "stargamerental.firebasestorage.app",
+      messagingSenderId: "576904982238",
+      appId: "1:576904982238:web:b7717c5ccba5f52596dc4f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.db = getDatabase(app);
+    window.ref = ref;
+    window.set = set;
+    window.get = get;
+    window.onValue = onValue;
+    window.update = update;
+    window.dispatchEvent(new Event("firebase-ready"));
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
