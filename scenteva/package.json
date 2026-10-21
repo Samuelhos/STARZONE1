@@ -1,8 +1,0 @@
-{
-  "name": "scenteva-website",
-  "version": "1.0.0",
-  "private": true,
-  "description": "SCENTEVA static website for GitHub and Vercel",
-  "scripts": {"dev": "node scripts/serve.mjs", "build": "node scripts/build.mjs"},
-  "engines": {"node": ">=20"}
-}
